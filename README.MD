@@ -190,3 +190,11 @@ Here worker4 represents the node that we want to remove.
 ```bash
 ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
 ```
+
+## Resources
+
+1. https://www.youtube.com/watch?v=zJoK8MMI23Q
+
+2. https://www.youtube.com/watch?v=1W4w2ziRU8Q&t=508s
+
+3.  https://github.com/kubernetes-sigs/kubespray
