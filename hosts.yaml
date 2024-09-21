@@ -1,0 +1,38 @@
+#Eg file
+
+all:
+  hosts:
+    master:
+      ansible_host: 143.110.183.103
+      ip: 143.110.183.103
+      access_ip: 143.110.183.103
+    worker1:
+      ansible_host: 143.110.183.11
+      ip: 143.110.183.11
+      access_ip: 143.110.183.11
+    worker2:
+      ansible_host: 143.110.191.52
+      ip: 143.110.191.52
+      access_ip: 143.110.191.52
+    worker3:
+      ansible_host: 143.110.180.133
+      ip: 143.110.180.133
+      access_ip: 143.110.180.133
+  children:
+    kube_control_plane:
+      hosts:
+        master:
+    kube_node:
+      hosts:
+        worker1:
+        worker2:
+        worker3:
+    etcd:
+      hosts:
+        master:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
