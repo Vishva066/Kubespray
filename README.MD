@@ -191,6 +191,65 @@ Here worker4 represents the node that we want to remove.
 ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root reset.yml
 ```
 
+## Error & Debugging
+
+**ERROR: Ansible requires the locale encoding to be UTF-8; Detected ISO8859–1.**
+
+Error Description
+Ansible is a configuration management tool that relies on UTF-8 encoding for proper text handling. This error indicates that your system's default locale is set to ISO-8859-1, which is an older character encoding standard. Ansible requires UTF-8 because it supports a wider range of characters, including international characters, emojis, and symbols.
+
+### Solution
+
+To set the system-wide locale to en_IN.UTF-8, you need to follow these steps:
+
+1. Set the LANG variable:
+Edit the /etc/default/locale file:
+
+```bash
+sudo nano /etc/default/locale
+```
+And set the LANG variable to en_IN.UTF-8:
+
+```bash
+LANG="en_IN.UTF-8"
+```
+
+2. Apply Changes:
+
+Reboot your system or log out and log back in to apply the changes.
+
+---
+
+**fatal: [worker1]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added '64.227.187.135' (ED25519) to the list of known hosts.\r\nvishva@64.227.187.135: Permission denied (publickey,password).", "unreachable": true}
+fatal: [worker2]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added '64.227.179.182' (ED25519) to the list of known hosts.\r\nvishva@64.227.179.182: Permission denied (publickey,password).", "unreachable": true}
+fatal: [worker4]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added '64.227.179.151' (ED25519) to the list of known hosts.\r\nvishva@64.227.179.151: Permission denied (publickey,password).", "unreachable": true}
+fatal: [worker3]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added '64.227.171.122' (ED25519) to the list of known hosts.\r\nvishva@64.227.171.122: Permission denied (publickey,password).", "unreachable": true}
+fatal: [master]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added '64.227.191.219' (ED25519) to the list of known hosts.\r\nvishva@64.227.191.219: Permission denied (publickey,password).", "unreachable": true}**
+
+Possible causes of this error are
+
+1. ssh keys are not copied correctly
+
+2. You have several ssh keys and the generated ssh key is not the default one.
+
+3. The user is different compared to the user you have pasted the ssh key
+
+## Debug
+
+Try pinging all the nodes from ansible. 
+
+To do this we have to edit a file called inventory.ini
+
+Here we are specifying the ansible_user and the host
+
+The eg of this file is given in this repository. Check it out.
+
+If it is pingable then change the hosts.yaml file according to this.
+
+An eg of hosts.yaml file is also written accordingly. Check it out
+
+Then give the command to start the cluster
+
 ## Resources
 
 1. https://www.youtube.com/watch?v=zJoK8MMI23Q
