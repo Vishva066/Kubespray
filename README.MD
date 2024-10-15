@@ -250,6 +250,34 @@ An eg of hosts.yaml file is also written accordingly. Check it out
 
 Then give the command to start the cluster
 
+---
+### Error: DNS not available
+
+While running the reset playbook in ansible to clear the cluster it clears the dns resolution for that particular system also.
+
+To solve that issue we have to manually map the DNS
+
+### Debugging
+
+Go to this particular location in the worker node and enter the dns configuration manually
+
+```bash
+cd /etc/systemd
+
+nano resolved.conf
+```
+
+In this file see the google dns resolution and copy it down accordingly. Make sure to uncomment the DNS and FallbackDNS fields 
+
+Eg
+
+```bash
+
+DNS=8.8.8.8 8.8.4.4
+FallbackDNS=2001:4860:4860::8888 2001:4860:4860::8844
+
+```
+
 ## Resources
 
 1. https://www.youtube.com/watch?v=zJoK8MMI23Q
@@ -257,3 +285,5 @@ Then give the command to start the cluster
 2. https://www.youtube.com/watch?v=1W4w2ziRU8Q&t=508s
 
 3.  https://github.com/kubernetes-sigs/kubespray
+
+4. https://udhayakumarc.medium.com/error-ansible-requires-the-locale-encoding-to-be-utf-8-detected-iso8859-1-6da808387f7d
